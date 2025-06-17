@@ -1,3 +1,9 @@
+
+🎥 **Watch the project overview video:**  
+[![Watch the video](https://img.youtube.com/vi/nHWjreHSEQQ/0.jpg)](https://youtu.be/nHWjreHSEQQ)
+
+
+
 Project Setup & Configuration Guide
 🔧 Environment Setup & Configuration
 Environment Variables (.env)
