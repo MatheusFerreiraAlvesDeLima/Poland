@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Your Plan - Ayist Group</title>
+  <style>
+    /* [Same CSS, unchanged for layout, readability, and visuals] */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .plans-container {
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      color: #0a0a1a;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .plans-grid {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .plan-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 40px 30px;
+      width: 350px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: 20px;
+      right: -30px;
+      background: linear-gradient(135deg, #FF8C00, #FFD700);
+      color: white;
+      padding: 5px 40px;
+      transform: rotate(45deg);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .free-badge {
+      position: absolute;
+      top: 20px;
+      right: -30px;
+      background: linear-gradient(135deg, #28a745, #3dd66d);
+      color: white;
+      padding: 5px 40px;
+      transform: rotate(45deg);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .plan-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0a0a1a;
+      margin-bottom: 15px;
+    }
+
+    .plan-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 25px;
+      color: #0046b5;
+    }
+
+    .plan-price.free {
+      color: #28a745;
+    }
+
+    .plan-price span {
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: #777;
+    }
+
+    .plan-features {
+      list-style: none;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+
+    .plan-features li {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+    }
+
+    .plan-features li:last-child {
+      border-bottom: none;
+    }
+
+    .feature-icon {
+      color: #28a745;
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .select-button {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #0046b5, #0066ff);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .select-button.free {
+      background: linear-gradient(135deg, #28a745, #3dd66d);
+    }
+
+    .select-button:hover {
+      background: linear-gradient(135deg, #003580, #0051cc);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 70, 181, 0.3);
+    }
+
+    .select-button.free:hover {
+      background: linear-gradient(135deg, #218838, #2ca24f);
+    }
+
+    .skip-container {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .skip-link {
+      color: #0046b5;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .skip-link:hover {
+      text-decoration: underline;
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      display: none;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .plans-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .plan-card {
+        width: 100%;
+        max-width: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="plans-container">
+    <div class="header">
+      <h1>Select the Perfect Plan</h1>
+      <p>Choose the subscription plan that best suits your company's needs. You can upgrade, downgrade, or cancel at any time.</p>
+    </div>
+
+    <div class="plans-grid">
+      {% for plan in plans %}
+      <div class="plan-card">
+        {% if plan[1] == 'Básico' %}
+        <div class="popular-badge">POPULAR</div>
+        {% elif plan[1] == 'Gratuito' %}
+        <div class="free-badge">FREE</div>
+        {% endif %}
+
+        <h2 class="plan-name">{{ plan[1] }}</h2>
+        <div class="plan-price {% if plan[3] == 0 %}free{% endif %}">
+          {% if plan[3] == 0 %}
+            $0.00
+          {% else %}
+            ${{ plan[3] }}
+          {% endif %}
+          <span>/month</span>
+        </div>
+
+        <ul class="plan-features">
+          {% for feature, value in plan[4].items() %}
+          <li>
+            <span class="feature-icon">✓</span>
+            <strong>{{ value }}</strong> {{ feature }}
+          </li>
+          {% endfor %}
+        </ul>
+
+        {% if plan[3] == 0 %}
+          <button class="select-button free" data-plan-id="{{ plan[0] }}" data-is-free="true">
+            Activate Free Plan
+          </button>
+        {% else %}
+          <button class="select-button" data-plan-id="{{ plan[0] }}" data-is-free="false">
+            Select Plan
+          </button>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="skip-container">
+      <a href="{{ url_for('dashboard') }}" class="skip-link">
+        Skip and return to dashboard
+      </a>
+    </div>
+  </div>
+
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    document.querySelectorAll('.select-button').forEach(button => {
+      button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const planId = button.dataset.planId;
+        const isFreePlan = button.dataset.isFree === 'true';
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        loadingOverlay.style.display = 'flex';
+
+        try {
+          if (isFreePlan) {
+            const response = await fetch('/activate_free_plan', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              alert('Free plan successfully activated!');
+              window.location.href = "{{ url_for('login') }}";
+            } else {
+              alert('Error activating free plan: ' + (result.error || 'Please try again.'));
+            }
+          } else {
+            const response = await fetch('/create-checkout-session/' + planId, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+
+            const session = await response.json();
+
+            if (response.ok) {
+              const stripe = Stripe('{{ stripe_public_key }}');
+              stripe.redirectToCheckout({ sessionId: session.id });
+            } else {
+              alert('Error processing payment: ' + (session.error || 'Please try again.'));
+            }
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Network error while processing the request.');
+        } finally {
+          loadingOverlay.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

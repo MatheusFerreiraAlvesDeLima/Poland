@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Company Status{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Company Status</h1>
+        </div>
+    </div>
+    
+    <!-- Company Information -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Company Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> {{ company.name }}</p>
+                    <p><strong>Email:</strong> {{ company.email }}</p>
+                    <p><strong>Country:</strong> {{ company.country }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Industry:</strong> {{ company.industry }}</p>
+                    <p><strong>Registration Date:</strong> {{ company.date_registered.strftime('%d/%m/%Y') }}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="badge bg-{% if company.is_active %}success{% else %}warning{% endif %}">
+                            {{ 'Active' if company.is_active else 'Inactive' }}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Current Subscription -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Current Subscription</h5>
+        </div>
+        <div class="card-body">
+            {% if subscription %}
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Plan:</strong> {{ subscription.plan_name }}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="badge bg-{% if subscription.status == 'active' %}success{% else %}warning{% endif %}">
+                            {{ subscription.status|capitalize }}
+                        </span>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Next Renewal:</strong> {{ subscription.renewal_date }}</p>
+                    <p><strong>Subscription ID:</strong> {{ subscription.stripe_subscription_id }}</p>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-danger">No active subscription</p>
+            <a href="{{ url_for('plans') }}" class="btn btn-primary">Choose a Plan</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Plan Limits -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Plan Limits</h5>
+        </div>
+        <div class="card-body">
+            <div class="progress mb-3" style="height: 25px;">
+                <div class="progress-bar bg-{% if usage.projects.percentage >= 80 %}danger{% elif usage.projects.percentage >= 60 %}warning{% else %}success{% endif %}" 
+                     role="progressbar" 
+                     style="width: {{ usage.projects.percentage }}%"
+                     aria-valuenow="{{ usage.projects.percentage }}" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                    Projects: {{ usage.projects.current }} / {{ usage.projects.max }} ({{ usage.projects.percentage }}%)
+                </div>
+            </div>
+            
+            <div class="progress mb-3" style="height: 25px;">
+                <div class="progress-bar bg-{% if usage.users.percentage >= 80 %}danger{% elif usage.users.percentage >= 60 %}warning{% else %}success{% endif %}" 
+                     role="progressbar" 
+                     style="width: {{ usage.users.percentage }}%"
+                     aria-valuenow="{{ usage.users.percentage }}" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                    Users: {{ usage.users.current }} / {{ usage.users.max }} ({{ usage.users.percentage }}%)
+                </div>
+            </div>
+            
+            {% if usage.projects.percentage >= 80 or usage.users.percentage >= 80 %}
+            <div class="alert alert-warning mt-4">
+                <strong>Warning!</strong> You are close to reaching your plan limits.
+                Consider <a href="{{ url_for('plans') }}">upgrading your plan</a> to continue accessing all features.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

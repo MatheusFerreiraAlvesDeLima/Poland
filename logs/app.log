@@ -1,0 +1,78 @@
+2025-06-17 02:40:09,329 - app - INFO -  Gemini API configured successfully
+2025-06-17 02:40:09,347 - app - INFO - Initializing database...
+2025-06-17 02:40:09,403 - app - ERROR - Error connecting to database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:40:09,404 - app - ERROR - Error initializing database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+Traceback (most recent call last):
+  File "C:\Users\Matheus\OneDrive\햞ea de Trabalho\Projetos_Estudo\Polonia\app\app.py", line 3253, in init_db
+    conn = get_db_connection()
+  File "C:\Users\Matheus\OneDrive\햞ea de Trabalho\Projetos_Estudo\Polonia\app\app.py", line 425, in get_db_connection
+    conn = psycopg2.connect(
+        host=os.getenv('DB_HOST'),
+    ...<3 lines>...
+        port=os.getenv('DB_PORT', 5432)
+    )
+  File "C:\Python313\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:40:11,312 - app - INFO -  Gemini API configured successfully
+2025-06-17 02:40:11,329 - app - INFO - Initializing database...
+2025-06-17 02:40:11,388 - app - ERROR - Error connecting to database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:40:11,388 - app - ERROR - Error initializing database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+Traceback (most recent call last):
+  File "C:\Users\Matheus\OneDrive\햞ea de Trabalho\Projetos_Estudo\Polonia\app\app.py", line 3253, in init_db
+    conn = get_db_connection()
+  File "C:\Users\Matheus\OneDrive\햞ea de Trabalho\Projetos_Estudo\Polonia\app\app.py", line 425, in get_db_connection
+    conn = psycopg2.connect(
+        host=os.getenv('DB_HOST'),
+    ...<3 lines>...
+        port=os.getenv('DB_PORT', 5432)
+    )
+  File "C:\Python313\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:41:01,949 - app - INFO -  Gemini API configured successfully
+2025-06-17 02:41:01,965 - app - INFO - Initializing database...
+2025-06-17 02:41:02,028 - app - ERROR - Error connecting to database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:41:02,028 - app - ERROR - Error initializing database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+Traceback (most recent call last):
+  File "C:\Users\Matheus\OneDrive\햞ea de Trabalho\Projetos_Estudo\Polonia\app\app.py", line 3254, in init_db
+    conn = get_db_connection()
+  File "C:\Users\Matheus\OneDrive\햞ea de Trabalho\Projetos_Estudo\Polonia\app\app.py", line 426, in get_db_connection
+    conn = psycopg2.connect(
+        host=os.getenv('DB_HOST'),
+    ...<3 lines>...
+        port=os.getenv('DB_PORT', 5432)
+    )
+  File "C:\Python313\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:41:07,570 - app - INFO -  Gemini API configured successfully
+2025-06-17 02:41:07,584 - app - INFO - Initializing database...
+2025-06-17 02:41:07,638 - app - ERROR - Error connecting to database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:41:07,639 - app - ERROR - Error initializing database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+Traceback (most recent call last):
+  File "C:\Users\Matheus\OneDrive\햞ea de Trabalho\Projetos_Estudo\Polonia\app\app.py", line 3253, in init_db
+    conn = get_db_connection()
+  File "C:\Users\Matheus\OneDrive\햞ea de Trabalho\Projetos_Estudo\Polonia\app\app.py", line 425, in get_db_connection
+    conn = psycopg2.connect(
+        host=os.getenv('DB_HOST'),
+    ...<3 lines>...
+        port=os.getenv('DB_PORT', 5432)
+    )
+  File "C:\Python313\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:41:20,234 - app - ERROR - Error connecting to database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:42:11,619 - app - ERROR - Error connecting to database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:42:14,271 - app - ERROR - Error connecting to database: 'utf-8' codec can't decode byte 0xe3 in position 99: invalid continuation byte
+2025-06-17 02:43:27,398 - app - INFO -  Gemini API configured successfully
+2025-06-17 02:43:27,413 - app - INFO - Initializing database...
+2025-06-17 02:43:27,471 - app - INFO - Database connection established successfully
+2025-06-17 02:43:27,479 - app - INFO - Database already exists
+2025-06-17 02:43:29,397 - app - INFO -  Gemini API configured successfully
+2025-06-17 02:43:29,413 - app - INFO - Initializing database...
+2025-06-17 02:43:29,473 - app - INFO - Database connection established successfully
+2025-06-17 02:43:29,480 - app - INFO - Database already exists
+2025-06-17 02:43:33,328 - app - INFO - Database connection established successfully
+2025-06-17 02:43:33,553 - app - INFO - Database connection established successfully
+2025-06-17 02:43:37,776 - app - INFO - Database connection established successfully

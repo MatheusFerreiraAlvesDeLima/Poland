@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Data Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: #0a0a1a;
+    }
+
+    .main-container {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Dashboard Section */
+    .dashboard-section {
+      flex: 1.5;
+      background: linear-gradient(135deg, #0f0f2d, #1a1a3a);
+      color: white;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 20%);
+      z-index: -1;
+    }
+
+    .dashboard-header {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .dashboard-header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #FFD700, #FF8C00);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .dashboard-header p {
+      font-size: 1.1rem;
+      color: #a0a0c0;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Dashboard Content */
+    .dashboard-content {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 215, 0, 0.3);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #FFD700;
+    }
+
+    .card-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 10px 0;
+      background: linear-gradient(135deg, #FFD700, #FF8C00);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .card-change {
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 20px;
+      background: rgba(255, 140, 0, 0.2);
+    }
+
+    .positive {
+      color: #FFD700;
+    }
+
+    .negative {
+      color: #f87171;
+    }
+
+    /* Charts */
+    .chart-container {
+      height: 150px;
+      margin-top: 15px;
+    }
+
+    .bar-chart {
+      display: flex;
+      height: 100%;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 0 5px;
+    }
+
+    .bar {
+      flex: 1;
+      background: linear-gradient(to top, #FFD700, #FF8C00);
+      border-radius: 4px 4px 0 0;
+      animation: grow 1.5s ease-out forwards;
+      position: relative;
+    }
+
+    .bar::after {
+      content: attr(data-value);
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #FFD700;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .line-chart {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+
+    .line-path {
+      fill: none;
+      stroke: url(#line-gradient);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Mini Charts */
+    .mini-charts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .mini-chart {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      padding: 15px;
+      position: relative;
+      height: 80px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .mini-chart-title {
+      font-size: 0.8rem;
+      color: #a0a0c0;
+      margin-bottom: 5px;
+    }
+
+    .mini-chart-value {
+      font-size: 1.2rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #FFD700, #FF8C00);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Login Section */
+    .login-section {
+      flex: 1;
+      background: #fff;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .login-header {
+      margin-bottom: 30px;
+    }
+
+    .login-header h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #0a0a1a;
+    }
+
+    .login-header p {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    .login-header a {
+      color: #FF8C00;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-header a:hover {
+      text-decoration: underline;
+    }
+
+    /* Flash Messages */
+    .flash-messages {
+      margin-bottom: 20px;
+    }
+
+    .flash-message {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      animation: fadeIn 0.3s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .flash-success {
+      background-color: rgba(255, 215, 0, 0.15);
+      color: #d4b400;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .flash-error {
+      background-color: rgba(255, 140, 0, 0.15);
+      color: #cc5500;
+      border: 1px solid rgba(255, 140, 0, 0.3);
+    }
+
+    .flash-close {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 10px;
+      color: inherit;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Form Styles */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 45px 14px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #FF8C00;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+    }
+
+    .form-group i {
+      position: absolute;
+      right: 15px;
+      top: 40px;
+      color: #888;
+    }
+
+    .btn-login {
+      padding: 16px;
+      background: linear-gradient(135deg, #FFD700, #FF8C00);
+      color: #000;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+    }
+
+    .btn-login:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .form-footer a {
+      color: #FF8C00;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Animation Elements */
+    .floating-elements {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+      animation: float 20s infinite linear;
+      opacity: 0.5;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(50px, 50px) rotate(90deg); }
+      50% { transform: translate(100px, 0) rotate(180deg); }
+      75% { transform: translate(50px, -50px) rotate(270deg); }
+      100% { transform: translate(0, 0) rotate(360deg); }
+    }
+
+    @keyframes grow {
+      from { height: 0; }
+    }
+
+    /* Particle Animation */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #FFD700;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: particle-float 15s infinite linear;
+    }
+
+    @keyframes particle-float {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+    }
+
+    /* Responsiveness */
+    @media (max-width: 1200px) {
+      .main-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+      }
+      
+      .dashboard-section, .login-section {
+        padding: 40px;
+      }
+      
+      .dashboard-content {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard-header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .dashboard-section, .login-section {
+        padding: 30px 20px;
+      }
+      
+      .login-header h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Dashboard Section -->
+    <div class="dashboard-section">
+      <div class="floating-elements">
+        <div class="floating-element" style="width: 120px; height: 120px; top: 15%; left: 10%; animation-duration: 25s;"></div>
+        <div class="floating-element" style="width: 80px; height: 80px; top: 70%; left: 80%; animation-duration: 30s; animation-direction: reverse;"></div>
+        <div class="floating-element" style="width: 60px; height: 60px; top: 40%; left: 50%; animation-duration: 20s;"></div>
+        <div class="floating-element" style="width: 100px; height: 100px; top: 80%; left: 20%; animation-duration: 35s; animation-direction: reverse;"></div>
+      </div>
+      
+      <div class="particles" id="particles-container"></div>
+      
+      <div class="dashboard-header">
+        <h1>Enterprise Data Dashboard</h1>
+        <p>Real-time analytics and performance metrics for your business operations</p>
+      </div>
+      
+      <div class="dashboard-content">
+        <div class="dashboard-card">
+          <div class="card-header">
+            <div class="card-title">Active Users</div>
+            <div class="card-change positive">+18%</div>
+          </div>
+          <div class="card-value">8,924</div>
+          <div class="chart-container">
+            <div class="bar-chart">
+              <div class="bar" style="height: 70%;" data-value="8.2K"></div>
+              <div class="bar" style="height: 85%;" data-value="8.5K"></div>
+              <div class="bar" style="height: 65%;" data-value="7.9K"></div>
+              <div class="bar" style="height: 80%;" data-value="8.6K"></div>
+              <div class="bar" style="height: 90%;" data-value="8.8K"></div>
+              <div class="bar" style="height: 75%;" data-value="8.3K"></div>
+              <div class="bar" style="height: 95%;" data-value="9.1K"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dashboard-card">
+          <div class="card-header">
+            <div class="card-title">Engagement Rate</div>
+            <div class="card-change positive">+12%</div>
+          </div>
+          <div class="card-value">84.7%</div>
+          <svg class="chart-container" viewBox="0 0 300 150">
+            <defs>
+              <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#FFD700" />
+                <stop offset="100%" stop-color="#FF8C00" />
+              </linearGradient>
+            </defs>
+            <path class="line-path" d="M10,130 C50,100 100,110 150,80 C200,50 250,90 290,60" />
+          </svg>
+        </div>
+        
+        <div class="dashboard-card">
+          <div class="card-header">
+            <div class="card-title">Performance Metrics</div>
+            <div class="card-change positive">+7%</div>
+          </div>
+          <div class="mini-charts">
+            <div class="mini-chart">
+              <div class="mini-chart-title">API Response</div>
+              <div class="mini-chart-value">64ms</div>
+            </div>
+            <div class="mini-chart">
+              <div class="mini-chart-title">Uptime</div>
+              <div class="mini-chart-value">99.99%</div>
+            </div>
+            <div class="mini-chart">
+              <div class="mini-chart-title">Data Accuracy</div>
+              <div class="mini-chart-value">99.2%</div>
+            </div>
+            <div class="mini-chart">
+              <div class="mini-chart-title">Error Rate</div>
+              <div class="mini-chart-value">0.08%</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dashboard-card">
+          <div class="card-header">
+            <div class="card-title">Revenue Growth</div>
+            <div class="card-change positive">+24%</div>
+          </div>
+          <div class="mini-charts">
+            <div class="mini-chart">
+              <div class="mini-chart-title">Q1</div>
+              <div class="mini-chart-value">$1.2M</div>
+            </div>
+            <div class="mini-chart">
+              <div class="mini-chart-title">Q2</div>
+              <div class="mini-chart-value">$1.8M</div>
+            </div>
+            <div class="mini-chart">
+              <div class="mini-chart-title">Q3</div>
+              <div class="mini-chart-value">$2.4M</div>
+            </div>
+            <div class="mini-chart">
+              <div class="mini-chart-title">Q4</div>
+              <div class="mini-chart-value">$3.1M</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Login Section -->
+    <div class="login-section">
+      <div class="login-header">
+        {% if verification_success %}
+          <h2>Welcome!</h2>
+          <p>Your account has been successfully verified. Please log in to access the dashboard.</p>
+        {% else %}
+          <h2>Welcome Back!</h2>
+          <p>Don't have an account? <a href="{{ url_for('register') }}">Create a new account</a></p>
+        {% endif %}
+      </div>
+      
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for category, message in messages %}
+              <div class="flash-message flash-{{ category }}">
+                <div><i class="fas fa-exclamation-circle"></i> {{ message }}</div>
+                <button class="flash-close">✕</button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      
+      <form class="login-form" action="{{ url_for('login') }}" method="post">
+        <div class="form-group">
+          <label for="email">Corporate Email</label>
+          <input type="email" id="email" name="email" placeholder="your.email@company.com" required>
+          <i class="fas fa-envelope"></i>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          <i class="fas fa-lock"></i>
+        </div>
+        
+        <button type="submit" class="btn-login">
+          <i class="fas fa-lock-open"></i> Access Dashboard
+        </button>
+      </form>
+      
+      <div class="form-footer">
+        <p>Secure access to your enterprise analytics platform</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Close flash messages
+      document.querySelectorAll('.flash-close').forEach(btn => {
+        btn.addEventListener('click', function() {
+          this.closest('.flash-message').style.display = 'none';
+        });
+      });
+      
+      // Create particles
+      const particlesContainer = document.getElementById('particles-container');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        particlesContainer.appendChild(particle);
+      }
+      
+      // Animated bar charts
+      const bars = document.querySelectorAll('.bar');
+      bars.forEach(bar => {
+        const height = bar.style.height;
+        bar.style.height = '0';
+        setTimeout(() => {
+          bar.style.height = height;
+        }, 300);
+      });
+      
+      // Animated line path
+      const linePath = document.querySelector('.line-path');
+      if (linePath) {
+        const length = linePath.getTotalLength();
+        linePath.style.strokeDasharray = length;
+        linePath.style.strokeDashoffset = length;
+        
+        setTimeout(() => {
+          linePath.style.transition = 'stroke-dashoffset 2s ease-in-out';
+          linePath.style.strokeDashoffset = '0';
+        }, 500);
+      }
+      
+      // Floating elements animation
+      const elements = document.querySelectorAll('.floating-element');
+      elements.forEach(el => {
+        // Randomize animation
+        el.style.animationDuration = `${Math.random() * 15 + 15}s`;
+        
+        if (Math.random() > 0.5) {
+          el.style.animationDirection = 'reverse';
+        }
+      });
+      
+      // Form input focus effect
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.style.boxShadow = '0 0 0 3px rgba(255, 140, 0, 0.3)';
+        });
+        
+        input.addEventListener('blur', function() {
+          this.style.boxShadow = '';
+        });
+      });
+      
+      // Update metrics every 8 seconds
+      function updateMetrics() {
+        document.querySelectorAll('.card-value').forEach(card => {
+          const currentValue = parseInt(card.textContent.replace(/[^\d]/g, ''));
+          const newValue = currentValue + Math.floor(Math.random() * 1000) - 500;
+          if (newValue > 0) {
+            card.textContent = newValue.toLocaleString();
+            if (card.textContent.includes('%')) card.textContent += '%';
+            if (card.textContent.includes('$')) card.textContent = '$' + newValue.toLocaleString();
+          }
+        });
+        
+        setTimeout(updateMetrics, 8000);
+      }
+      
+      updateMetrics();
+    });
+  </script>
+</body>
+</html>

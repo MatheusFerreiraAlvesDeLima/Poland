@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}Subscription Management{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Page Title -->
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h1 class="fw-bold">Subscription Management</h1>
+        </div>
+    </div>
+
+    <!-- Current Plan Alert -->
+    {% if subscription %}
+        <div class="alert alert-info text-center mb-4">
+            You are currently on the plan:
+            <strong>
+                {% for plan in plans %}
+                    {% if plan[0] == subscription.plan_id %}
+                        {{ plan[1] }} ({{ 'Free' if plan[3] == 0 else '$' ~ plan[3] ~ '/month' }})
+                    {% endif %}
+                {% endfor %}
+            </strong>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center mb-4">
+            No active plan at the moment.
+        </div>
+    {% endif %}
+
+    <!-- Action Buttons -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <button
+                class="btn btn-outline-danger w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#cancelModal"
+            >
+                <i class="fas fa-ban me-2"></i> Cancel Plan
+            </button>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ url_for('plans') }}" class="btn btn-outline-primary w-100">
+                <i class="fas fa-sync-alt me-2"></i> Change Plan
+            </a>
+        </div>
+    </div>
+
+    <!-- Available Plans List -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Available Plans</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for plan in plans %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm border
+                            {% if subscription and subscription.plan_id == plan[0] %}
+                                border-primary border-2
+                            {% else %}
+                                border-light
+                            {% endif %}
+                        ">
+                            <!-- Plan Header -->
+                            <div class="card-header
+                                {% if plan[3] == 0 %}bg-success{% else %}bg-secondary{% endif %}
+                                text-white">
+                                <h5 class="card-title mb-0">{{ plan[1] }}</h5>
+                            </div>
+
+                            <!-- Plan Details -->
+                            <div class="card-body">
+                                <h2 class="card-title pricing-card-title">
+                                    {% if plan[3] == 0 %}
+                                        Free
+                                    {% else %}
+                                        ${{ plan[3] }}/month
+                                    {% endif %}
+                                </h2>
+                                <ul class="list-unstyled mt-3 mb-4">
+                                    {% for feature, value in plan[4].items() %}
+                                        <li><strong>{{ value }}</strong> {{ feature }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <!-- Plan Actions -->
+                            <div class="card-footer bg-white">
+                                {% if subscription and subscription.plan_id == plan[0] %}
+                                    <button class="w-100 btn btn-outline-primary" disabled>
+                                        Current Plan
+                                    </button>
+                                {% else %}
+                                    <form method="POST" action="{{ url_for('change_plan') }}">
+                                        <input type="hidden" name="new_plan_id" value="{{ plan[0] }}">
+                                        <button type="submit" class="w-100 btn btn-primary">
+                                            Select
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancellation Confirmation Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{{ url_for('cancel_subscription') }}">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelModalLabel">Confirm Cancellation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <p>You are about to cancel your current plan.</p>
+                        <p class="text-danger">
+                            <strong>Important:</strong> Your access will remain active until the end of the current billing cycle.
+                        </p>
+                        <p class="text-muted">
+                            This action can be undone by subscribing to a new plan later.
+                        </p>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Go Back
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            Confirm Cancellation
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<!-- Spinner Feedback Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('form[action="{{ url_for('change_plan') }}"]').forEach(form => {
+            form.addEventListener('submit', function () {
+                const button = this.querySelector('button[type="submit"]');
+                button.innerHTML = `
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Processing...
+                `;
+                button.disabled = true;
+            });
+        });
+    });
+</script>
+{% endblock %}

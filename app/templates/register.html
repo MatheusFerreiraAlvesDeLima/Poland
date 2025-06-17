@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro - Ayist Group</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: #fff;
+    }
+
+    .main-container {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .right-section {
+      flex: 1;
+      background: #0a0a1a;
+      color: white;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .right-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 25%);
+      z-index: 0;
+    }
+
+    .right-section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .right-section h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #FF8C00, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-align: center;
+      letter-spacing: -1px;
+    }
+
+    .right-section p {
+      font-size: 1.1rem;
+      margin-top: 10px;
+      max-width: 450px;
+      color: #ccc;
+      line-height: 1.6;
+      text-align: center;
+      margin: 15px auto 30px;
+    }
+
+    .right-section .footer {
+      margin-top: auto;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      color: #aaa;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+    }
+
+    .left-section {
+      flex: 1;
+      background: #fff;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 1px 0 8px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .left-section h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .left-section p {
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      color: #666;
+    }
+
+    /* ESTILOS PARA MENSAGENS DE ALERTA */
+    .alert {
+      padding: 12px 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .alert-warning {
+      background-color: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+    }
+    
+    .alert-close {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 10px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: 60vh;
+      padding-right: 10px;
+      padding-bottom: 70px;
+    }
+
+    .form-footer {
+      position: sticky;
+      bottom: 0;
+      background: white;
+      padding-top: 20px;
+      margin-top: 10px;
+      z-index: 10;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .form-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .form-group label {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .required::after {
+      content: " *";
+      color: #ff4d4d;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    select {
+      padding: 14px 40px 14px 14px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #FF8C00;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
+    }
+
+    button {
+      padding: 14px;
+      background: linear-gradient(135deg, #FF8C00, #FFD700);
+      color: #000;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    button.disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .left-section a {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #FF8C00;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .left-section a:hover {
+      text-decoration: underline;
+      transform: translateX(3px);
+    }
+
+    .form-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .form-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .form-container::-webkit-scrollbar-thumb {
+      background: #FF8C00;
+      border-radius: 10px;
+    }
+
+    .form-container::-webkit-scrollbar-thumb:hover {
+      background: #FF6D00;
+    }
+
+    .error-message {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #fff0f0;
+      border-radius: 4px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      color: #ff4d4d;
+      font-size: 0.8rem;
+      display: none;
+    }
+
+    .close-error {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #ff4d4d;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tooltip-icon {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: #FF8C00;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 0.8rem;
+      cursor: help;
+      margin-left: 5px;
+      line-height: 18px;
+    }
+
+    .tooltip {
+      display: none;
+      position: absolute;
+      background: #0a0a1a;
+      color: white;
+      padding: 12px;
+      border-radius: 6px;
+      width: 220px;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-top: -120px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .validation-icon {
+      position: absolute;
+      right: 12px;
+      top: 40px;
+      font-size: 1.2rem;
+      display: none;
+    }
+
+    .valid {
+      border-color: #28a745 !important;
+    }
+
+    .invalid {
+      border-color: #dc3545 !important;
+    }
+
+    .valid + .validation-icon {
+      display: block;
+      color: #28a745;
+    }
+
+    .invalid + .validation-icon {
+      display: block;
+      color: #dc3545;
+    }
+
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(0,0,0,0.1);
+      border-top: 3px solid #000;
+      border-radius: 50%;
+      margin-left: 10px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Dashboard Styles */
+    .dashboard {
+      width: 100%;
+      text-align: center;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin: 30px auto;
+      max-width: 1200px;
+    }
+
+    .metric-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fade-in 0.8s ease forwards;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .metric-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .metric-card:nth-child(1) { animation-delay: 0.3s; }
+    .metric-card:nth-child(2) { animation-delay: 0.5s; }
+    .metric-card:nth-child(3) { animation-delay: 0.7s; }
+    .metric-card:nth-child(4) { animation-delay: 0.9s; }
+
+    .metric-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #FF8C00, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 10px 0;
+    }
+
+    .metric-label {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-top: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .chart {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fade-in 0.8s ease forwards;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .chart:nth-child(1) { animation-delay: 1.1s; }
+    .chart:nth-child(2) { animation-delay: 1.3s; }
+    .chart:nth-child(3) { animation-delay: 1.5s; }
+    .chart:nth-child(4) { animation-delay: 1.7s; }
+
+    .chart-title {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chart-title span {
+      color: #FF8C00;
+      font-weight: bold;
+    }
+
+    .bar-chart {
+      display: flex;
+      height: 150px;
+      align-items: flex-end;
+      gap: 15px;
+      padding: 0 10px;
+    }
+
+    .bar {
+      flex: 1;
+      background: linear-gradient(to top, #FF8C00, #FFD700);
+      height: 0;
+      border-radius: 4px 4px 0 0;
+      animation: grow 1.5s ease-out forwards;
+      transition: height 1.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+      position: relative;
+    }
+
+    .bar::after {
+      content: attr(data-value);
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #FFD700;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
+    .pie-chart {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto;
+      position: relative;
+      animation: scale-in 0.8s ease forwards;
+    }
+
+    .pie-center {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      background: #0a0a1a;
+      border-radius: 50%;
+      top: 25px;
+      left: 25px;
+    }
+
+    .pie-value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, #FF8C00, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* CORREÇÕES PARA OS MINI-CHARTS */
+    .mini-charts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .mini-chart {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 15px;
+      position: relative;
+      height: 100px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mini-chart-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      height: 100%;
+    }
+
+    .mini-chart-text {
+      flex: 1;
+    }
+
+    .mini-chart-title {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+
+    .mini-chart-value {
+      font-size: 1.4rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #FF8C00, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .mini-chart-graphic {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .donut-chart {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 6px solid rgba(255,255,255,0.1);
+      border-top: 6px solid #FF8C00;
+      border-right: 6px solid #FFD700;
+      animation: spin 2s linear infinite;
+    }
+
+    .donut-value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.9rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #FF8C00, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .line-chart {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 5px;
+    }
+
+    .line-bar {
+      flex: 1;
+      height: 0;
+      background: linear-gradient(to top, #FF8C00, #FFD700);
+      margin: 0 2px;
+      border-radius: 2px 2px 0 0;
+      animation: mini-grow 1.2s ease forwards;
+      transition: height 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    @keyframes grow {
+      from { height: 0; }
+    }
+
+    @keyframes mini-grow {
+      from { height: 0; }
+    }
+
+    @keyframes fade-in {
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scale-in {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsividade */
+    @media (max-width: 1200px) {
+      .main-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+      }
+      
+      .left-section, .right-section {
+        padding: 40px;
+      }
+      
+      .metrics {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .charts {
+        grid-template-columns: 1fr;
+      }
+      
+      .right-section h1 {
+        font-size: 2.8rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .right-section h1 {
+        font-size: 2.2rem;
+      }
+      
+      .main-container {
+        flex-direction: column;
+      }
+      
+      .right-section, .left-section {
+        padding: 30px;
+      }
+      
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+      
+      .mini-charts {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="left-section">
+      <!-- Mensagens de erro/sucesso -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+              {{ message }}
+              <button class="alert-close" onclick="this.parentElement.style.display='none'">✕</button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <h2>Create a New Account</h2>
+      <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+
+      <form id="registerForm" action="{{ url_for('register') }}" method="post">
+        <div class="form-container">
+          <div class="form-group">
+            <label for="full-name" class="required">Administrator Full Name</label>
+            <input type="text" id="full-name" name="full_name" required />
+            <div class="validation-icon"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="required">Corporate Email</label>
+            <input type="email" id="email" name="email" required />
+            <div id="email-error" class="error-message">
+              <span>Please enter a valid email address</span>
+              <button class="close-error">✕</button>
+            </div>
+            <div class="validation-icon"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="password" class="required">Password
+                <span class="tooltip-icon">?</span>
+                <div class="tooltip" id="password-tooltip">
+                  • At least 8 characters<br>
+                  • At least 1 uppercase letter<br>
+                  • At least 1 number<br>
+                  • At least 1 special character
+                </div>
+              </label>
+              <input type="password" id="password" name="password" required />
+              <div id="password-error" class="error-message">
+                <span>Password does not meet requirements</span>
+                <button class="close-error">✕</button>
+              </div>
+              <div class="validation-icon"></div>
+            </div>
+            <div class="form-group">
+              <label for="confirm-password" class="required">Confirm Password</label>
+              <input type="password" id="confirm-password" name="confirm_password" required />
+              <div id="confirm-password-error" class="error-message">
+                <span>Passwords do not match</span>
+                <button class="close-error">✕</button>
+              </div>
+              <div class="validation-icon"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="company-name" class="required">Company Name</label>
+            <input type="text" id="company-name" name="company_name" required />
+            <div class="validation-icon"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="country" class="required">Country</label>
+              <select id="country" name="country" required>
+                <option value="">Select a country</option>
+                <option value="BR">Brazil</option>
+                <option value="US">United States</option>
+                <option value="PT">Portugal</option>
+                <option value="ES">Spain</option>
+                <option value="UK">United Kingdom</option>
+              </select>
+              <div class="validation-icon"></div>
+            </div>
+            <div class="form-group">
+              <label for="industry" class="required">Industry</label>
+              <select id="industry" name="industry" required>
+                <option value="">Select an industry</option>
+                <option value="tech">Technology</option>
+                <option value="finance">Finance</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="construction">Construction</option>
+                <option value="education">Education</option>
+              </select>
+              <div class="validation-icon"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-footer">
+          <button type="submit" id="submitBtn">
+            <span class="button-text">Create Account</span>
+            <span class="spinner"></span>
+          </button>
+          <a href="/">Back to home page</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="right-section">
+      <div class="dashboard">
+        <h1>Ayist Group</h1>
+        
+        <div class="metrics">
+          <div class="metric-card">
+            <div class="metric-value" data-target="87">87%</div>
+            <div class="metric-label">Performance</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" data-target="42">42%</div>
+            <div class="metric-label">Growth</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" data-target="68">68%</div>
+            <div class="metric-label">Engagement</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" data-target="94">94%</div>
+            <div class="metric-label">Efficiency</div>
+          </div>
+        </div>
+        
+        <div class="charts">
+          <div class="chart">
+            <div class="chart-title">Operational Metrics <span>↑ 12%</span></div>
+            <div class="bar-chart">
+              <div class="bar" style="height: 60%" data-value="60%"></div>
+              <div class="bar" style="height: 85%" data-value="85%"></div>
+              <div class="bar" style="height: 45%" data-value="45%"></div>
+              <div class="bar" style="height: 70%" data-value="70%"></div>
+            </div>
+          </div>
+          
+          <div class="chart">
+            <div class="chart-title">Resource Allocation <span>↓ 3%</span></div>
+            <div class="pie-chart" id="livePieChart">
+              <div class="pie-center"></div>
+              <div class="pie-value">65%</div>
+            </div>
+          </div>
+          
+          <div class="chart">
+            <div class="chart-title">Market Share <span>↑ 8%</span></div>
+            <div class="mini-charts">
+              <div class="mini-chart">
+                <div class="mini-chart-content">
+                  <div class="mini-chart-text">
+                    <div class="mini-chart-title">North America</div>
+                    <div class="mini-chart-value">42%</div>
+                  </div>
+                </div>
+                <div class="line-chart">
+                  <div class="line-bar" style="height: 30px"></div>
+                  <div class="line-bar" style="height: 50px"></div>
+                  <div class="line-bar" style="height: 25px"></div>
+                  <div class="line-bar" style="height: 40px"></div>
+                  <div class="line-bar" style="height: 60px"></div>
+                  <div class="line-bar" style="height: 35px"></div>
+                  <div class="line-bar" style="height: 45px"></div>
+                </div>
+              </div>
+              <div class="mini-chart">
+                <div class="mini-chart-content">
+                  <div class="mini-chart-text">
+                    <div class="mini-chart-title">Europe</div>
+                    <div class="mini-chart-value">28%</div>
+                  </div>
+                  <div class="mini-chart-graphic">
+                    <div class="donut-chart"></div>
+                    <div class="donut-value">28%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="chart">
+            <div class="chart-title">Customer Satisfaction <span>↑ 5%</span></div>
+            <div class="mini-charts">
+              <div class="mini-chart">
+                <div class="mini-chart-content">
+                  <div class="mini-chart-text">
+                    <div class="mini-chart-title">Q1-Q2</div>
+                    <div class="mini-chart-value">89%</div>
+                  </div>
+                </div>
+                <div class="line-chart">
+                  <div class="line-bar" style="height: 50px"></div>
+                  <div class="line-bar" style="height: 70px"></div>
+                  <div class="line-bar" style="height: 60px"></div>
+                  <div class="line-bar" style="height: 75px"></div>
+                  <div class="line-bar" style="height: 65px"></div>
+                  <div class="line-bar" style="height: 80px"></div>
+                  <div class="line-bar" style="height: 90px"></div>
+                </div>
+              </div>
+              <div class="mini-chart">
+                <div class="mini-chart-content">
+                  <div class="mini-chart-text">
+                    <div class="mini-chart-title">Q3-Q4</div>
+                    <div class="mini-chart-value">92%</div>
+                  </div>
+                  <div class="mini-chart-graphic">
+                    <div class="donut-chart" style="border-top-color: #28a745; border-right-color: #4ade80;"></div>
+                    <div class="donut-value">92%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">© 2024 Ayist Group. All rights reserved.</div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tooltip for password
+      const passwordField = document.getElementById('password');
+      const tooltip = document.getElementById('password-tooltip');
+      
+      passwordField.addEventListener('focus', () => {
+        tooltip.style.display = 'block';
+      });
+      
+      passwordField.addEventListener('blur', () => {
+        tooltip.style.display = 'none';
+      });
+      
+      // Close error messages
+      document.querySelectorAll('.close-error').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const errorMessage = e.target.closest('.error-message');
+          errorMessage.style.display = 'none';
+        });
+      });
+      
+      // Real-time validation
+      document.querySelectorAll('input, select').forEach(field => {
+        field.addEventListener('input', () => validateField(field));
+        field.addEventListener('blur', () => validateField(field));
+      });
+      
+      function validateField(field) {
+        const formGroup = field.closest('.form-group');
+        const errorElement = formGroup.querySelector('.error-message');
+        const iconElement = formGroup.querySelector('.validation-icon');
+        
+        if (field.checkValidity()) {
+          field.classList.remove('invalid');
+          field.classList.add('valid');
+          iconElement.style.display = 'block';
+          iconElement.textContent = '✓';
+          if (errorElement) errorElement.style.display = 'none';
+        } else {
+          field.classList.remove('valid');
+          field.classList.add('invalid');
+          iconElement.style.display = 'block';
+          iconElement.textContent = '✗';
+        }
+        
+        // Email validation
+        if (field.id === 'email' && field.value) {
+          if (!validateEmail(field.value)) {
+            field.classList.remove('valid');
+            field.classList.add('invalid');
+            iconElement.textContent = '✗';
+          }
+        }
+        
+        // Password validation
+        if (field.id === 'password' && field.value) {
+          if (!validatePassword(field.value)) {
+            field.classList.remove('valid');
+            field.classList.add('invalid');
+            iconElement.textContent = '✗';
+          }
+        }
+        
+        // Password confirmation
+        if (field.id === 'confirm-password' && field.value) {
+          const password = document.getElementById('password').value;
+          if (field.value !== password) {
+            field.classList.remove('valid');
+            field.classList.add('invalid');
+            iconElement.textContent = '✗';
+          }
+        }
+      }
+      
+      // Email validation function
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+      
+      // Password validation function
+      function validatePassword(password) {
+        const re = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+        return re.test(password);
+      }
+      
+      // Form submission
+      const form = document.getElementById('registerForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const buttonText = submitBtn.querySelector('.button-text');
+      const spinner = submitBtn.querySelector('.spinner');
+      
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let valid = true;
+        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+        
+        // Validate required fields
+        const requiredFields = form.querySelectorAll('[required]');
+        requiredFields.forEach(field => {
+          if (!field.value.trim()) {
+            valid = false;
+            field.classList.add('invalid');
+            const iconElement = field.closest('.form-group').querySelector('.validation-icon');
+            if (iconElement) {
+              iconElement.style.display = 'block';
+              iconElement.textContent = '✗';
+            }
+          }
+        });
+        
+        // Validate email
+        const email = document.getElementById('email').value;
+        if (email && !validateEmail(email)) {
+          valid = false;
+          document.getElementById('email-error').style.display = 'flex';
+        }
+        
+        // Validate password
+        const password = document.getElementById('password').value;
+        if (password && !validatePassword(password)) {
+          valid = false;
+          document.getElementById('password-error').style.display = 'flex';
+        }
+        
+        // Validate password confirmation
+        const confirmPassword = document.getElementById('confirm-password').value;
+        if (password !== confirmPassword) {
+          valid = false;
+          document.getElementById('confirm-password-error').style.display = 'flex';
+        }
+        
+        if (!valid) {
+          // Scroll to first invalid field
+          const firstInvalid = form.querySelector('.invalid');
+          if (firstInvalid) {
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          return;
+        }
+        
+        // UI feedback for submission
+        buttonText.textContent = 'Sending...';
+        spinner.style.display = 'inline-block';
+        submitBtn.classList.add('disabled');
+        
+        // Submit the form programmatically
+        form.submit();
+      });
+      
+      // Animação fluída para os contadores
+      function smoothAnimateCounter(element, start, end, duration) {
+        let startTimestamp = null;
+        
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          const value = Math.floor(progress * (end - start) + start);
+          
+          element.textContent = value + '%';
+          
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          }
+        };
+        
+        requestAnimationFrame(step);
+      }
+      
+      // Dashboard animations
+      document.querySelectorAll('.metric-value').forEach(el => {
+        const currentText = el.textContent;
+        const currentValue = currentText ? parseInt(currentText.replace('%', '')) : 0;
+        const target = parseInt(el.dataset.target);
+        smoothAnimateCounter(el, currentValue, target, 1500);
+      });
+      
+      // Animação fluída para gráficos de barras
+      function smoothAnimateBar(bar, start, end, duration) {
+        let startTimestamp = null;
+        
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          const value = start + (end - start) * progress;
+          
+          bar.style.height = `${value}%`;
+          bar.setAttribute('data-value', `${Math.round(value)}%`);
+          
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          }
+        };
+        
+        requestAnimationFrame(step);
+      }
+      
+      // Dynamic dashboard updates
+      function updateDashboardMetrics() {
+        document.querySelectorAll('.metric-value').forEach(el => {
+          const currentText = el.textContent;
+          const currentValue = currentText ? parseInt(currentText.replace('%', '')) : 0;
+          const newTarget = Math.floor(Math.random() * 40) + 60; // Random value between 60-100
+          el.dataset.target = newTarget;
+          smoothAnimateCounter(el, currentValue, newTarget, 1800);
+        });
+      }
+      
+      function updateBarChart() {
+        const bars = document.querySelectorAll('.bar');
+        bars.forEach(bar => {
+          const currentHeight = parseInt(bar.style.height || "0");
+          const newHeight = Math.floor(Math.random() * 70) + 30; // Random height between 30-100%
+          smoothAnimateBar(bar, currentHeight, newHeight, 1200);
+        });
+      }
+      
+      function updatePieChart() {
+        const pieValue = document.querySelector('.pie-value');
+        const newValue = Math.floor(Math.random() * 40) + 50; // Random value between 50-90%
+        pieValue.textContent = `${newValue}%`;
+        
+        // Update pie chart colors
+        const pieChart = document.getElementById('livePieChart');
+        const colors = [
+          `#FF8C00 ${0}% ${newValue/3}%`,
+          `#FFD700 ${newValue/3}% ${newValue*2/3}%`,
+          `#0066ff ${newValue*2/3}% ${newValue}%`,
+          `#28a745 ${newValue}% 100%`
+        ].join(',');
+        
+        pieChart.style.background = `conic-gradient(${colors})`;
+      }
+      
+      function updateMiniCharts() {
+        // Update line charts
+        document.querySelectorAll('.line-bar').forEach(bar => {
+          const newHeight = Math.floor(Math.random() * 50) + 20;
+          bar.style.height = `${newHeight}px`;
+        });
+        
+        // Update donut charts
+        document.querySelectorAll('.donut-value').forEach((el, index) => {
+          const newValue = Math.floor(Math.random() * 30) + 65;
+          el.textContent = `${newValue}%`;
+        });
+        
+        // Update mini chart values
+        document.querySelectorAll('.mini-chart-value').forEach((el, index) => {
+          const newValue = Math.floor(Math.random() * 30) + 65;
+          el.textContent = `${newValue}%`;
+        });
+      }
+      
+      // Initialize dashboard animations
+      setTimeout(() => {
+        updateDashboardMetrics();
+        updateBarChart();
+        updatePieChart();
+        updateMiniCharts();
+        
+        // Update dashboard every 8 seconds
+        setInterval(() => {
+          updateDashboardMetrics();
+          updateBarChart();
+          updatePieChart();
+          updateMiniCharts();
+        }, 8000);
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
